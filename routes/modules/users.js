@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const bcrypt = require("bcrypt");
 
 const User = require("../../models/users");
 
 router.get("/login", (req, res)=>{
-    res.render("users/login");
+    let error = [];
+    res.render("users/login", {error});
 })
 
 router.post("/login", 
@@ -48,7 +50,14 @@ router.post("/register", (req, res)=>{
                     error.push("此信箱已有人註冊");
                     res.render("users/register", { name, email, error });
                 }else{
-                    User.create({ name, email, password })
+                    return bcrypt
+                    .genSalt(10)
+                    .then(salt=>{
+                        return bcrypt.hash(password, salt)
+                    })
+                    .then(hash => {
+                        User.create({ name, email, password: hash })
+                    })
                     .then(() => {
                         req.flash("success_msg", "註冊成功，請登入");
                         res.redirect("/users/login")
