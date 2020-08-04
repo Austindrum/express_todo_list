@@ -10,8 +10,7 @@ router.get("/login", (req, res)=>{
     res.render("users/login", {error});
 })
 
-router.post("/login", 
-passport.authenticate('local', {
+router.post("/login", passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/users/login'
 }))

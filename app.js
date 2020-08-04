@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const methodOverride = require('method-override');
+require("dotenv").config();
 const app = express();
 
 // require custmer modules
@@ -15,7 +16,7 @@ require("./config/db");
 app.set("view engine", "ejs");
 
 app.use(session({
-    secret: "thisIsMySecret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true    
 }));
