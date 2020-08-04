@@ -15,7 +15,6 @@ module.exports = app => {
             if(user.password !== password){
                 return done(null, false, { message: "Password Incorrect" });
             }
-            console.log(user);
             return done(null, user);
         })
         .catch(err => done(err, false));

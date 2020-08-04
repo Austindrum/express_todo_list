@@ -14,20 +14,25 @@ router.post("/", (req, res)=>{
                 isImportant: req.body.important === 'on' ? true : false,
                 isComplete: false,
                 createAt: new Date().getTime(),
+                userId: req.user._id
             })
             .then(()=> res.redirect("/"))
             .catch(err => console.log(err));
 })
 
 router.get("/:id/edit", (req, res)=>{
-    return Todo.findById(req.params.id)
+    let _id = req.params.id;
+    let userId = req.user._id;
+    return Todo.findOne({_id, userId})
     .lean()
     .then(todo=> res.render("todos/edit", {todo}))
     .catch( err => console.log(err) )
 });
 
 router.put("/:id", (req, res)=>{
-    return Todo.findById(req.params.id)
+    let _id = req.params.id;
+    let userId = req.user._id;
+    return Todo.findOne({ _id, userId })
         .then(todo => {
             todo.title = req.body.title;
             todo.comment = req.body.comment;
@@ -42,7 +47,9 @@ router.put("/:id", (req, res)=>{
 });
 
 router.delete("/:id", (req, res)=>{
-    return Todo.findById(req.params.id)
+    let _id = req.params.id;
+    let userId = req.user._id;
+    return Todo.findOne({ _id, userId })
     .then(todo => todo.remove())
     .then(() => res.redirect("/"))
     .catch(err => console.log(err))

@@ -19,6 +19,12 @@ const todoSchema = new Schema({
     },
     createAt: {
         type: Number,
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        index: true,
+        required: true
     }
 });
 
