@@ -27,7 +27,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 usePassport(app);
-
+app.use((req, res, next)=>{
+    res.locals.isAuthenticated = req.isAuthenticated();
+    res.locals.user = req.user;
+    next();
+});
 app.use(routes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, ()=>{
