@@ -16,32 +16,47 @@ passport.authenticate('local', {
 
 router.get("/logout", (req, res)=>{
     req.logOut();
+    req.flash("success_msg", "您已成功登出");
     res.redirect("/users/login");
 })
 
 router.get("/register", (req, res)=>{
     let { name, email } = {};
-    res.render("users/register", { name, email});
+    let error = [];
+    res.render("users/register", { name, email, error});
 })
 
 router.post("/register", (req, res)=>{
     let { name, email, password, confirmPassword} = req.body;
+    let error = [];
+    if(!name || !email || !password || !confirmPassword){
+        error.push("各欄位不得為空");
+    }
+    if(password !== confirmPassword){
+        error.push("密碼確認錯誤");
+    }
+    if(error.length > 0){
+        return res.render("users/register", {
+                    error,
+                    name,
+                    email
+                });
+    }
     return User.findOne({email})
             .then(user=>{
                 if(user){
-                    console.log("user exists");
-                    res.render("users/register", { name, email });
+                    error.push("此信箱已有人註冊");
+                    res.render("users/register", { name, email, error });
                 }else{
-                    if(password !== confirmPassword){
-                        console.log("password not confirm");
-                        res.render("users/register", { name, email });
-                    }else{
-                        User.create({ name, email, password })
-                        .then(() => res.redirect("/users/login"))
-                        .then(err => console.log(err))
-                    }
+                    User.create({ name, email, password })
+                    .then(() => {
+                        req.flash("success_msg", "註冊成功，請登入");
+                        res.redirect("/users/login")
+                    })
+                    .then(err => console.log(err))
                 }
             })
+
 })
 
 module.exports = router;
