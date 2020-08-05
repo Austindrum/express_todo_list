@@ -4,7 +4,7 @@
 
 ## Project setup
 ```
-git clone https://github.com/Austindrum/buyer.git
+git clone https://github.com/Austindrum/express_todo_list.git
 
 npm install
 ```
