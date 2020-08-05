@@ -9,10 +9,20 @@ router.get("/facebook", passport.authenticate('facebook', {
     scope: ['email', 'public_profile']
 }))
 
-router.get("/facebook/callback", passport.authenticate('facebook', {
-    successRedirect: '/',
-    failureRedirect: 'users/login'
-}))
+// router.get("/facebook/callback", passport.authenticate('facebook', {
+//     successRedirect: '/',
+//     failureRedirect: 'users/login'
+// }))
+
+router.get("/facebook/callback", function(req, res, next) {
+    passport.authenticate('facebook', (err, user, info) => {
+      req.logIn(user, err => {
+        if (err) { return next(err); }
+        req.flash("success_msg", "登入成功，歡迎您");
+        return res.redirect('/');
+      });
+    })(req, res, next);
+}) 
 
 
 module.exports = router;

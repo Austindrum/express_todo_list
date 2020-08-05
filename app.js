@@ -7,7 +7,7 @@ const methodOverride = require('method-override');
 require("dotenv").config();
 const app = express();
 
-// require custmer modules
+// require customer modules
 const routes = require("./routes");
 const usePassport = require("./config/passport");
 require("./config/db");
@@ -32,6 +32,7 @@ app.use((req, res, next)=>{
     res.locals.user = req.user;
     res.locals.success_msg = req.flash("success_msg");
     res.locals.warning_msg = req.flash("warning_msg");
+    res.locals.error_msg = req.flash("error_msg");
     next();
 });
 app.use(routes);

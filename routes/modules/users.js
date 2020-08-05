@@ -10,11 +10,24 @@ router.get("/login", (req, res)=>{
     res.render("users/login", {error});
 })
 
-router.post("/login", passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/users/login'
-}))
-
+router.post("/login", function(req, res, next) {
+    if(!req.body.email || !req.body.password){
+        req.flash("error_msg", "各欄位不得為空");
+        return res.redirect("/users/login");
+    }
+    passport.authenticate('local', (err, user, info) => {
+      req.logIn(user, err => {
+        if (err) { return next(err); }
+        req.flash("success_msg", "登入成功，歡迎您");
+        return res.redirect('/');
+      });
+    })(req, res, next);
+}) 
+// {
+//     successRedirect: '/',
+//     failureRedirect: '/users/login',
+//     failureFlash: true
+// }
 router.get("/logout", (req, res)=>{
     req.logOut();
     req.flash("success_msg", "您已成功登出");
