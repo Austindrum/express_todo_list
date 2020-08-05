@@ -13,13 +13,15 @@ module.exports = app => {
         .then(user=>{
             if(!user){
                 return done(null, false, req.flash("error_msg", "沒有找到使用者"));
+            }else{
+                return bcrypt.compare(password, user.password).then(isMatch=>{
+                    if(!isMatch){
+                        return done(null, false, req.flash("error_msg", "密碼錯誤"));
+                    }else{
+                        done(null, user);
+                    }
+                }) 
             }
-            return bcrypt.compare(password, user.password).then(isMatch=>{
-                if(!isMatch){
-                    return done(null, false, req.flash("error_msg", "密碼錯誤"));
-                }
-                done(null, user);
-            }) 
         })
         .catch(err => done(err, false));
     }))
