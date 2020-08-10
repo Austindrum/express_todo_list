@@ -14,6 +14,7 @@ router.post("/login", function(req, res, next) {
     if(!req.body.email || !req.body.password){
         req.flash("error_msg", "各欄位不得為空");
         return res.redirect("/users/login");
+        // return res.render("users/login", { error:[] });
     }
     passport.authenticate('local', (err, user, info) => {
       req.logIn(user, err => {

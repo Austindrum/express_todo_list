@@ -7,7 +7,7 @@ const Todo = require("../../models/todo");
 router.get("/", (req, res)=>{
     let userId = req.user._id;
     let error = [];
-    Todo.find({ userId })
+    Todo.find({userId})
     .lean()
     .sort({ createAt: 'asc' })
     .then(todos=> res.render("index", { todos, error }) )
