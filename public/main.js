@@ -14,7 +14,7 @@ window.onload = () => {
         let id = e.target.dataset.id;
         let status = e.target.dataset.status;
         $.ajax({
-            url: `http://localhost:5000/todos/${id}/todo_update?_method=PUT`,
+            url: `https://gentle-sands-08886.herokuapp.com/todos/${id}/todo_update?_method=PUT`,
             method: 'PUT',
             data: {
                 status,
