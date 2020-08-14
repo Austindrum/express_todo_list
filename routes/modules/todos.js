@@ -29,14 +29,15 @@ router.get("/:id/edit", (req, res)=>{
     .catch( err => console.log(err) )
 });
 
-// router.get("/:id/todo_update", (req, res)=>{
-//     let _id = req.params.id;
-//     Todo.findOne({ _id })
-//     .then(todo=>{
-        
-//     })
-//     return res.json({message: 'success'});  
-// })
+router.put("/:id/todo_update", (req, res)=>{
+    let _id = req.params.id;
+    return Todo.findOne({ _id })
+    .then(todo => {
+        todo.isComplete = !todo.isComplete;
+        todo.save();
+        return res.json({message: "success"})
+    })  
+})
 
 router.put("/:id", (req, res)=>{
     let _id = req.params.id;

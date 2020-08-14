@@ -6,11 +6,17 @@
         <div class="card mb-3">
             <h3 class="card-header d-flex justify-content-between">
                 <span class="font-weight-bold">
-                    <!-- <input type="checkbox" class="todo-toggle" data-id=""> -->
-                    <!-- todo._id -->
-                    <span class="mr-2">
+                    <input 
+                    type="checkbox" 
+                    class="todo-toggle"
+                    data-id="<%= todo._id %>" 
+                    data-status="<%= todo.isComplete %>" 
+                    <% if(todo.isComplete) { %>
+                        checked
+                    <% } %>>
+                    <span class="<%= todo.isComplete == true ? 'todo-done' : '' %>">
                         <%= todo.title %>
-                    </span>  
+                    </span>
                     <span class="text-warning">
                         <% if(todo.isImportant) { %>
                             <i class="fas fa-star"></i> 

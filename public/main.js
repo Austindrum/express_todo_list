@@ -12,11 +12,18 @@ window.onload = () => {
     //todo status toggle
     $('.todo-toggle').on('click', (e)=>{
         let id = e.target.dataset.id;
+        let status = e.target.dataset.status;
         $.ajax({
-            url: `http://localhost:5000/todos/${id}/todo_update`,
-            method: 'GET',
+            url: `http://localhost:5000/todos/${id}/todo_update?_method=PUT`,
+            method: 'PUT',
+            data: {
+                status,
+            },
             error: (err) => console.log(err),
-            success: (res) => console.log(res)
+            success: (res) => { }
+        })
+        .then(()=>{
+            e.target.nextElementSibling.classList.toggle('todo-done');
         });
     })
 }

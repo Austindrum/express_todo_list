@@ -1,5 +1,15 @@
 body{
     font-family: "Microsoft JhengHei";
 }
-.todo-toggle{
+.todo-done{
+    text-decoration: line-through;
 }
+input[type=checkbox]{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+
+
