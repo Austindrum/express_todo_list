@@ -12,6 +12,7 @@ const routes = require("./routes");
 const usePassport = require("./config/passport");
 require("./config/db");
 
+
 // set ejs
 app.set("view engine", "ejs");
 
